@@ -7,15 +7,17 @@ public class Thing : MonoBehaviour
     [SerializeField]
     protected float lifeDuration = 3;
 
+    protected int costOfTap;
+
     // Start is called before the first frame update
     public virtual void Start()
     {
         Destroy(gameObject, lifeDuration);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnMouseDown()
     {
-        
+        GameManager.instance.AddPoints(costOfTap);
+        Destroy(gameObject);
     }
 }

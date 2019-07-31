@@ -9,7 +9,10 @@ public enum GameStatus
 
 public class GameManager : MonoBehaviour
 {
-    private int lifes = 3;
+    [SerializeField]
+    private Text playersScore;
+    
+    private int score = 0;
 
     public static GameManager instance = null;
     private void Awake()
@@ -34,12 +37,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        playersScore.text = "Score: " + score;
     }
 
-    public void Attack()
+    public void AddPoints(int points)
     {
-        if (--lifes == 0)
+        score += points;
+        Debug.Log(score);
+        if (score < 0)
             GameOver();
     }
 

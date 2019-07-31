@@ -1,32 +1,27 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemy : Thing
 {
+    [SerializeField]
+    private int pointsTap = 30;
+    [SerializeField]
+    private int pointsNot = -100;
 
     private float timer;
-
-    // Start is called before the first frame update
-    public override void Start()
+    
+    public void Awake()
     {
-        timer = lifeDuration;    
+        timer = lifeDuration;
+        costOfTap = pointsTap;
     }
 
     // Update is called once per frame
     void Update()
     {
         timer -= Time.deltaTime;
-        if (timer <= 0)
+        if (timer <= Time.deltaTime)
         {
-            GameManager.instance.Attack();
-            Destroy(gameObject);
+            GameManager.instance.AddPoints(pointsNot);
         }
-    }
-
-    private void OnMouseDown()
-    {
-        Destroy(gameObject);
     }
 }

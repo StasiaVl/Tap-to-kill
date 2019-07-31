@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Ally : Thing
 {
-    private void OnMouseDown()
+    [SerializeField]
+    private int points = -200;
+
+    public void Awake()
     {
-        GameManager.instance.Attack();
-        Destroy(gameObject);
+        costOfTap = points;
     }
 }
