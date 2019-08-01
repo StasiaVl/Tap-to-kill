@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject notToKill;
     [SerializeField]
+    private GameObject tutorail;
+    [SerializeField]
     private Text playersScore;
     [SerializeField]
     private Text timeLeft;
@@ -76,6 +78,7 @@ public class GameManager : MonoBehaviour
     public void BeginGame()
     {
         currentState = GameStatus.play;
+        tutorail.SetActive(false);
         PlayBtn.GetComponent<Button>().interactable = false;
         PlayBtn.gameObject.SetActive(false);
         QuitBtn.GetComponent<Button>().interactable = false;
@@ -100,6 +103,9 @@ public class GameManager : MonoBehaviour
     public void ToMenu()
     {
         currentState = GameStatus.menu;
+        tutorail.SetActive(true);
+        playersScore.text = "";
+        timeLeft.text = "";
         PlayBtn.GetComponent<Button>().interactable = true;
         PlayBtn.gameObject.SetActive(true);
         QuitBtn.GetComponent<Button>().interactable = true;
