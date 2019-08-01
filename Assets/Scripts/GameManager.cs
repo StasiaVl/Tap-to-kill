@@ -3,16 +3,34 @@ using UnityEngine;
 
 public enum GameStatus
 {
-    menu, play, gameover
+    menu, play, pause, gameover
 }
 
 
 public class GameManager : MonoBehaviour
 {
+
+    [SerializeField]
+    private GameObject toKill;
+    [SerializeField]
+    private GameObject notToKill;
     [SerializeField]
     private Text playersScore;
-    
+    [SerializeField]
+    private Text timeLeft;
+    [SerializeField]
+    private Button PauseBtn;
+    [SerializeField]
+    private Button PlayBtn;
+    [SerializeField]
+    private Button QuitBtn;
+    [SerializeField]
+    private Button MenuBtn;
+
     private int score = 0;
+    private float timer;
+    private GameStatus currentState = GameStatus.play;
+    public GameStatus CurrentState { get { return currentState; } }
 
     public static GameManager instance = null;
     private void Awake()
@@ -31,26 +49,60 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-    
+        BeginGame();
     }
 
     // Update is called once per frame
     void Update()
     {
-        playersScore.text = "Score: " + score;
+        if (currentState == GameStatus.play)
+        {
+            timer -= Time.deltaTime;
+            timeLeft.text = timer < 10 ? "Time: 0:0" + (int)timer : "Time: 0:" + (int)timer;
+            if (timer <= 0)
+            {
+                GameOver();
+            }
+        }
+
+
     }
 
     public void AddPoints(int points)
     {
         score += points;
-        Debug.Log(score);
-        if (score < 0)
-            GameOver();
+        playersScore.text = "Score: " + score;
+    }
+
+    public void BeginGame()
+    {
+        playersScore.text = "Score: 0";
+        timeLeft.text = "Time: 1:00";
+        GameObject bad = Instantiate(toKill) as GameObject;
+        GameObject good = Instantiate(notToKill) as GameObject;
+        timer = 60;
+        Destroy(bad, timer);
+        Destroy(good, timer);
     }
 
     public void GameOver()
     {
+        currentState = GameStatus.gameover;
         Debug.Log("GAME OVER");
+    }
+
+    public void Pause()
+    {
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+            currentState = GameStatus.play;
+        }
+        else
+        {
+            Time.timeScale = 0;
+            currentState = GameStatus.pause;
+        }
     }
 
     public void Exit()

@@ -3,7 +3,17 @@ guid: 1ffe3009ff59cda4b98bdfc4a07ab130
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - toKill: {fileID: 2806423745742678809, guid: 63ed5d5d07ab3ca4786d5bd880e41cbc,
+      type: 3}
+  - notToKill: {fileID: 7756022091425774228, guid: 4fda6164285c65c498c3e1948861b424,
+      type: 3}
+  - playersScore: {instanceID: 0}
+  - timeLeft: {instanceID: 0}
+  - PauseBtn: {instanceID: 0}
+  - PlayBtn: {instanceID: 0}
+  - QuitBtn: {instanceID: 0}
+  - MenuBtn: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

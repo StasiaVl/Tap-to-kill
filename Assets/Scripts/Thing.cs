@@ -17,7 +17,11 @@ public class Thing : MonoBehaviour
 
     private void OnMouseDown()
     {
-        GameManager.instance.AddPoints(costOfTap);
-        Destroy(gameObject);
+        if (GameManager.instance.CurrentState.Equals(GameStatus.play))
+        {
+            GameManager.instance.AddPoints(costOfTap);
+            Destroy(gameObject);
+        }
+        
     }
 }

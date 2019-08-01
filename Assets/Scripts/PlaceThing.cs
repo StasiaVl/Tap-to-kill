@@ -15,32 +15,42 @@ public class PlaceThing : MonoBehaviour
 
     private Vector2 max;
     private Vector2 min;
+    private float x;
+    private float y;
+    private float width;
+    private float height;
 
     // Start is called before the first frame update
     void Start()
     {
         min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)); // bottom-left corner
         max = Camera.main.ViewportToWorldPoint(new Vector2(1, 1)); // top-right corner
-        min.x += thing.GetComponent<Renderer>().bounds.size.x;
-        max.x -= thing.GetComponent<Renderer>().bounds.size.x;
-        min.y += thing.GetComponent<Renderer>().bounds.size.y;
-        max.y -= thing.GetComponent<Renderer>().bounds.size.y;
+        width = thing.GetComponent<Renderer>().bounds.size.x;
+        height = thing.GetComponent<Renderer>().bounds.size.y;
+        min.x += width;
+        max.x -= width;
+        min.y += height;
+        max.y -= height;
         StartCoroutine(PutOnScreen());
     }
 
     //Generates objects
     IEnumerator PutOnScreen()
     {
+        x = Random.Range(min.x, max.x);
+        y = Random.Range(min.y, max.y);
+
         yield return new WaitForSeconds(startingOfset);
 
         GameObject newItem = Instantiate(thing) as GameObject;
-        newItem.transform.position = new Vector2(UnityEngine.Random.Range(min.x, max.x), 
-                                                    UnityEngine.Random.Range(min.y, max.y));
+        newItem.transform.position = new Vector2(x, y);
         newItem.transform.parent = transform;
 
         yield return new WaitForSeconds(timeToWait);
         if (timeToWait > minTime)
             timeToWait *= 0.9f;
+        
         StartCoroutine(PutOnScreen());
+
     }
 }
