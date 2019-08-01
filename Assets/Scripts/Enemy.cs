@@ -2,10 +2,8 @@
 
 public class Enemy : Thing
 {
-    [SerializeField]
     private int pointsTap = 30;
-    [SerializeField]
-    private int pointsNot = -100;
+    private int pointsNot = -50;
 
     private float timer;
     

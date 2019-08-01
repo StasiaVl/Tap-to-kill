@@ -43,7 +43,7 @@ public class PlaceThing : MonoBehaviour
         yield return new WaitForSeconds(startingOfset);
 
         GameObject newItem = Instantiate(thing) as GameObject;
-        newItem.transform.position = new Vector2(x, y);
+        newItem.transform.position = new Vector3(x, y, 8);
         newItem.transform.parent = transform;
 
         yield return new WaitForSeconds(timeToWait);

@@ -2,8 +2,7 @@
 
 public class Ally : Thing
 {
-    [SerializeField]
-    private int points = -200;
+    private int points = -100;
 
     public void Awake()
     {

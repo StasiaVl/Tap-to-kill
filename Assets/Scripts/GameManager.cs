@@ -21,9 +21,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text timeLeft;
     [SerializeField]
+    private Text finTxt;
+    [SerializeField]
     private Button PauseBtn;
     [SerializeField]
+    private Button ResumeBtn;
+    [SerializeField]
     private Button PlayBtn;
+    [SerializeField]
+    private Button RestartBtn;
     [SerializeField]
     private Button QuitBtn;
     [SerializeField]
@@ -31,6 +37,8 @@ public class GameManager : MonoBehaviour
 
     private int score = 0;
     private float timer;
+    private GameObject bad;
+    private GameObject good;
     private GameStatus currentState = GameStatus.menu;
     public GameStatus CurrentState { get { return currentState; } }
 
@@ -65,8 +73,6 @@ public class GameManager : MonoBehaviour
                 GameOver();
             }
         }
-
-
     }
 
     public void AddPoints(int points)
@@ -78,15 +84,23 @@ public class GameManager : MonoBehaviour
     public void BeginGame()
     {
         currentState = GameStatus.play;
+        Time.timeScale = 1;
+        if (bad != null)
+            Destroy(bad);
+        if (good != null)
+            Destroy(good);
         tutorail.SetActive(false);
-        PlayBtn.GetComponent<Button>().interactable = false;
         PlayBtn.gameObject.SetActive(false);
-        QuitBtn.GetComponent<Button>().interactable = false;
         QuitBtn.gameObject.SetActive(false);
+        MenuBtn.gameObject.SetActive(false);
+        RestartBtn.gameObject.SetActive(false);
+        ResumeBtn.gameObject.SetActive(false);
+        PauseBtn.gameObject.SetActive(true);
         playersScore.text = "Score: 0";
         timeLeft.text = "Time: 1:00";
-        GameObject bad = Instantiate(toKill) as GameObject;
-        GameObject good = Instantiate(notToKill) as GameObject;
+        finTxt.text = "";
+        bad = Instantiate(toKill) as GameObject;
+        good = Instantiate(notToKill) as GameObject;
         timer = 60;
         score = 0;
         Destroy(bad, timer);
@@ -96,21 +110,30 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         currentState = GameStatus.gameover;
-        Debug.Log("GAME OVER");
-        ToMenu();
+        playersScore.text = "";
+        timeLeft.text = "";
+        finTxt.text = "Time is out!\nYour score is " + score;
+        PauseBtn.gameObject.SetActive(false);
+        MenuBtn.gameObject.SetActive(true);
+        RestartBtn.gameObject.SetActive(true);
     }
 
     public void ToMenu()
     {
         currentState = GameStatus.menu;
+        if (bad != null)
+            Destroy(bad);
+        if (good != null)
+            Destroy(good);
+        PlayBtn.gameObject.SetActive(true);
+        QuitBtn.gameObject.SetActive(true);
+        ResumeBtn.gameObject.SetActive(false);
+        MenuBtn.gameObject.SetActive(false);
+        RestartBtn.gameObject.SetActive(false);
         tutorail.SetActive(true);
         playersScore.text = "";
         timeLeft.text = "";
-        PlayBtn.GetComponent<Button>().interactable = true;
-        PlayBtn.gameObject.SetActive(true);
-        QuitBtn.GetComponent<Button>().interactable = true;
-        QuitBtn.gameObject.SetActive(true);
-
+        finTxt.text = "";
     }
 
     public void Pause()
@@ -119,11 +142,19 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 1;
             currentState = GameStatus.play;
+            ResumeBtn.gameObject.SetActive(false);
+            MenuBtn.gameObject.SetActive(false);
+            RestartBtn.gameObject.SetActive(false);
+            PauseBtn.gameObject.SetActive(true);
         }
         else
         {
             Time.timeScale = 0;
             currentState = GameStatus.pause;
+            ResumeBtn.gameObject.SetActive(true);
+            MenuBtn.gameObject.SetActive(true);
+            RestartBtn.gameObject.SetActive(true);
+            PauseBtn.gameObject.SetActive(false);
         }
     }
 
