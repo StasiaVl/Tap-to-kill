@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     private int score = 0;
     private float timer;
-    private GameStatus currentState = GameStatus.play;
+    private GameStatus currentState = GameStatus.menu;
     public GameStatus CurrentState { get { return currentState; } }
 
     public static GameManager instance = null;
@@ -49,7 +49,6 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        BeginGame();
     }
 
     // Update is called once per frame
@@ -76,11 +75,17 @@ public class GameManager : MonoBehaviour
 
     public void BeginGame()
     {
+        currentState = GameStatus.play;
+        PlayBtn.GetComponent<Button>().interactable = false;
+        PlayBtn.gameObject.SetActive(false);
+        QuitBtn.GetComponent<Button>().interactable = false;
+        QuitBtn.gameObject.SetActive(false);
         playersScore.text = "Score: 0";
         timeLeft.text = "Time: 1:00";
         GameObject bad = Instantiate(toKill) as GameObject;
         GameObject good = Instantiate(notToKill) as GameObject;
         timer = 60;
+        score = 0;
         Destroy(bad, timer);
         Destroy(good, timer);
     }
@@ -89,6 +94,17 @@ public class GameManager : MonoBehaviour
     {
         currentState = GameStatus.gameover;
         Debug.Log("GAME OVER");
+        ToMenu();
+    }
+
+    public void ToMenu()
+    {
+        currentState = GameStatus.menu;
+        PlayBtn.GetComponent<Button>().interactable = true;
+        PlayBtn.gameObject.SetActive(true);
+        QuitBtn.GetComponent<Button>().interactable = true;
+        QuitBtn.gameObject.SetActive(true);
+
     }
 
     public void Pause()
