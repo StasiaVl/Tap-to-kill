@@ -37,20 +37,23 @@ public class PlaceThing : MonoBehaviour
     //Generates objects
     IEnumerator PutOnScreen()
     {
-        x = Random.Range(min.x, max.x);
-        y = Random.Range(min.y, max.y);
-
         yield return new WaitForSeconds(startingOfset);
+
+        do
+        {
+            x = Random.Range(min.x, max.x);
+            y = Random.Range(min.y, max.y);
+        }
+        while (Physics2D.OverlapCircle(new Vector3(x, y, 8), height) != null);
 
         GameObject newItem = Instantiate(thing) as GameObject;
         newItem.transform.position = new Vector3(x, y, 8);
         newItem.transform.parent = transform;
 
-        yield return new WaitForSeconds(timeToWait);
+        yield return new WaitForSeconds(timeToWait);    
         if (timeToWait > minTime)
             timeToWait *= 0.9f;
         
         StartCoroutine(PutOnScreen());
-
     }
 }
