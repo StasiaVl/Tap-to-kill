@@ -1,11 +1,11 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public enum GameStatus
 {
     menu, play, pause, gameover
 }
-
 
 public class GameManager : MonoBehaviour
 {
@@ -54,11 +54,18 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+
+        NetworkManager.singleton.StartServer();
     }
 
     // Use this for initialization
     void Start()
     {
+        NetworkManager.singleton.StartClient();
+        if (NetworkManager.singleton.client != null)
+            ToMenu();
+        else
+            Debug.Log("ERROR: No client");
     }
 
     // Update is called once per frame
